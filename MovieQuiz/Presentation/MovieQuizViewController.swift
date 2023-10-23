@@ -1,45 +1,47 @@
 import UIKit
 
+struct QuizQuestion {
+       let image: String
+       let text: String
+       let correctAnswer: Bool
+   }
+   
+   struct QuizStepViewModel {
+       let image: UIImage
+       let question: String
+       let questionNumber: String
+   }
+   
+   struct QuizResultsViewModel {
+       let title: String
+       let text: String
+       let buttonText: String
+   }
+
 final class MovieQuizViewController: UIViewController {
     // MARK: - Lifecycle
+    override func viewDidLoad() {
+           super.viewDidLoad()
+           let currentQuestion = questions[currentQuestionIndex]
+           let viewModel = convert(model: currentQuestion)
+           self.show(quiz: viewModel)
+       }
     
-    @IBAction private func YesButtonClicked(_ sender: Any) {
-        let currentQuestion = questions[currentQuestionIndex]
-        let givenAnswer = true
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+    @IBAction func yesButtonClicked(_ sender: UIButton) {
+        answerGived(answer: true)
+       buttonsDisabledOneSecond()
     }
     
-    @IBAction private func NoButtonClicked(_ sender: Any) {
-        let currentQuestion = questions[currentQuestionIndex]
-        let givenAnswer = false
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+    @IBAction func noButtonClicked(_ sender: UIButton) {
+        answerGived(answer: false)
+        buttonsDisabledOneSecond()
     }
     
-    
-    @IBOutlet private var imageView: UIImageView!
-    @IBOutlet private var textLabel: UILabel!
-    @IBOutlet private var counterLabel: UILabel!
-    
-    
-    struct QuizQuestion {
-        let image: String
-        let text: String
-        let correctAnswer: Bool
-    }
-    
-    struct QuizStepViewModel {
-        let image: UIImage
-        let question: String
-        let questionNumber: String
-    }
-    
-    struct QuizResultsViewModel {
-        let title: String
-        let text: String
-        let buttonText: String
-    }
-    
-    
+    @IBOutlet weak var yesButton: UIButton!
+    @IBOutlet weak var noButton: UIButton!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var textLabel: UILabel!
+    @IBOutlet private weak var counterLabel: UILabel!
     
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
@@ -157,11 +159,21 @@ final class MovieQuizViewController: UIViewController {
             show(quiz: viewModel)
         }
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    private func answerGived(answer: Bool) {
         let currentQuestion = questions[currentQuestionIndex]
-        let viewModel = convert(model: currentQuestion)
-        self.show(quiz: viewModel)
+        let givenAnswer = answer
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
+    private func buttonsDisabledOneSecond() {
+        yesButton.isEnabled = false
+        noButton.isEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.yesButton.isEnabled = true
+            self.noButton.isEnabled = true
+            }
+    }
+    
+
+   
 }
