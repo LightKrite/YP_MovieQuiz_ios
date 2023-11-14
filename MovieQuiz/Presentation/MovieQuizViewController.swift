@@ -3,17 +3,20 @@ import UIKit
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private var currentQuestionIndex = 0
-       private var correctAnswers = 0
-       private let questionsAmount = 10
-       private var questionFactory: QuestionFactoryProtocol?
-       private var currentQuestion: QuizQuestion?
-    
+    private var correctAnswers = 0
+    private let questionsAmount = 10
+    private var questionFactory: QuestionFactoryProtocol?
+    private var currentQuestion: QuizQuestion?
+    private var alertPresenter: AlertPresenter?
+    private lazy var statisticService: StaticticServiceProtocol = StatisticServiceImpl()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        questionFactory?.delegate = self
+        alertPresenter = AlertPresenterImpl(viewController: self)
+        questionFactory = QuestionFactoryImpl(delegate: self)
         questionFactory?.requestNextQuestion()
+        
     }
     
     // MARK: - QuestionFactoryDelegate
@@ -45,7 +48,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     @IBOutlet private weak var textLabel: UILabel!
     @IBOutlet private weak var counterLabel: UILabel!
     
-   
     
     private func showAnswerResult(isCorrect: Bool){
         
@@ -81,40 +83,51 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
     
     private func showResult(quiz result: QuizResultsViewModel) {
-        let alert = UIAlertController(
-            title: result.title,
-            message: result.text,
-            preferredStyle: .alert)
         
-        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            self.currentQuestionIndex = 0
-            self.correctAnswers = 0
-            
-            self.questionFactory?.requestNextQuestion()
-        }
-        alert.addAction(action)
+        let alert = AlertModel(title: result.title,
+                               message: result.text,
+                               buttonText: result.buttonText,
+                               completion: { [weak self] in
+            self?.currentQuestionIndex = 0
+            self?.correctAnswers = 0
+            self?.questionFactory?.requestNextQuestion()
+        })
+        alertPresenter?.show(alertModel: alert)
         
-        self.present(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(
+//            title: result.title,
+//            message: result.text,
+//            preferredStyle: .alert)
+//
+//        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
+//            guard let self = self else { return }
+//            self.currentQuestionIndex = 0
+//            self.correctAnswers = 0
+//
+//            self.questionFactory?.requestNextQuestion()
+//        }
+//        alert.addAction(action)
+//
+//        self.present(alert, animated: true, completion: nil)
         
     }
     
     private func showNextQuestionOrResult() {
         if currentQuestionIndex == questionsAmount - 1 {
-            let text = correctAnswers == questionsAmount ?
-            "Поздравляем, вы ответили на 10 из 10!" :
-            "Ваш результат \(correctAnswers)/10"
+            statisticService.store(correct: correctAnswers, total: questionsAmount)
             
-            let viewModelResult = QuizResultsViewModel(
-                title: "Игра окончена!",
-                text: text,
-                buttonText: "Сыграть еще раз")
-            showResult(quiz: viewModelResult)
+            showResult(quiz: QuizResultsViewModel(
+                title: "Этот раунд окончен!",
+                text: """
+                Ваш результат: \(correctAnswers)/10
+                Количество сыгранных квизов: \(statisticService.gamesCount)
+                Рекорд: \(statisticService.bestGame.correct)/10 (\(statisticService.bestGame.date.dateTimeString))
+                Средняя точность: \(Int(statisticService.totalAccuracy))%
+                """,
+                buttonText: "Сыграть еще раз"))
             
         } else {
-            
             currentQuestionIndex += 1
-            
             questionFactory?.requestNextQuestion()
         }
     }

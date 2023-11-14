@@ -7,9 +7,13 @@
 
 import Foundation
 
-class QuestionFactory: QuestionFactoryProtocol {
+class QuestionFactoryImpl: QuestionFactoryProtocol {
    
     weak var delegate: QuestionFactoryDelegate?
+    
+    init(delegate: QuestionFactoryDelegate? = nil) {
+        self.delegate = delegate
+    }
     
     private let questions: [QuizQuestion] = [
             QuizQuestion(
