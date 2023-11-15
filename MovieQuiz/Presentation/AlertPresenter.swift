@@ -19,6 +19,7 @@ final class AlertPresenterImpl {
         self.viewController = viewController
     }
 }
+
 extension AlertPresenterImpl: AlertPresenter{
     
     func show(alertModel: AlertModel) {

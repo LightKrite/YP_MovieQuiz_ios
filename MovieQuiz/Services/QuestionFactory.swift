@@ -7,7 +7,7 @@
 
 import Foundation
 
-class QuestionFactoryImpl: QuestionFactoryProtocol {
+final class QuestionFactoryImpl: QuestionFactoryProtocol {
    
     weak var delegate: QuestionFactoryDelegate?
     
@@ -66,16 +66,4 @@ class QuestionFactoryImpl: QuestionFactoryProtocol {
         let question = questions[safe: index]
         delegate?.didReceiveNextQuestion(question: question)
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
