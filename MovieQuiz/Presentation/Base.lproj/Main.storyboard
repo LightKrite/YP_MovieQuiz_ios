@@ -107,6 +107,9 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="4Me-r1-dgJ">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
@@ -114,13 +117,16 @@
                             <constraint firstItem="4BI-0M-DN9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="4EP-TE-j2a"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4BI-0M-DN9" secondAttribute="trailing" constant="20" id="6Ce-pV-fu0"/>
                             <constraint firstItem="4BI-0M-DN9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="G4O-5n-nj4"/>
+                            <constraint firstItem="4Me-r1-dgJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="n0P-yU-m5L"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="4BI-0M-DN9" secondAttribute="bottom" id="ob0-dw-mcQ"/>
+                            <constraint firstItem="4Me-r1-dgJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sZC-On-4If"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="counterLabel" destination="TxL-es-hLe" id="suq-o6-Qha"/>
                         <outlet property="imageView" destination="I4j-z4-XuD" id="A6R-x0-pP7"/>
                         <outlet property="noButton" destination="xWf-Hm-sew" id="bo3-M4-mWX"/>
+                        <outlet property="statusIndicator" destination="4Me-r1-dgJ" id="t69-QA-6uJ"/>
                         <outlet property="textLabel" destination="g4F-rw-MAq" id="E9F-TJ-i7R"/>
                         <outlet property="yesButton" destination="wtX-o6-hM9" id="cHe-zx-dbw"/>
                     </connections>
