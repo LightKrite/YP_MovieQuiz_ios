@@ -29,12 +29,12 @@ class MovieQuizUITests: XCTestCase {
         app.terminate()
         app = nil
     }
-
+    
     func testExample() throws {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
-
+        
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     
@@ -78,7 +78,7 @@ class MovieQuizUITests: XCTestCase {
             app.buttons["No"].tap()
             sleep(2)
         }
-
+        
         let alert = app.alerts["Этот раунд окончен!"]
         
         sleep(1)
@@ -87,7 +87,7 @@ class MovieQuizUITests: XCTestCase {
         XCTAssertTrue(alert.label == "Этот раунд окончен!")
         XCTAssertTrue(alert.buttons.firstMatch.label == "Сыграть еще раз")
     }
-
+    
     func testAlertDismiss() {
         sleep(2)
         for _ in 1...10 {

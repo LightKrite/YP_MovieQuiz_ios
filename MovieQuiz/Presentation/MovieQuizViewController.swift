@@ -1,7 +1,7 @@
 import UIKit
 
 final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
-  
+    
     private var presenter: MovieQuizPresenter!
     private var alertPresenter: AlertPresenter?
     
@@ -28,20 +28,20 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     @IBOutlet private weak var statusIndicator: UIActivityIndicatorView!
     
     func highlightImageBorder(isCorrectAnswer: Bool) {
-            imageView.layer.masksToBounds = true
-            imageView.layer.borderWidth = 8
-            imageView.layer.borderColor = isCorrectAnswer ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-        }
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 8
+        imageView.layer.borderColor = isCorrectAnswer ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
+    }
     
     func removeImageBorder() {
-            imageView.layer.borderWidth = 0
-        }
+        imageView.layer.borderWidth = 0
+    }
     
     func show(quiz step:QuizStepViewModel) {
-            imageView.image = step.image
-            textLabel.text = step.question
-            counterLabel.text = step.questionNumber
-        }
+        imageView.image = step.image
+        textLabel.text = step.question
+        counterLabel.text = step.questionNumber
+    }
     
     func showResult(quiz result: QuizResultsViewModel) {
         
@@ -63,11 +63,11 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         statusIndicator.isHidden = true
         statusIndicator.stopAnimating()
     }
-        
+    
     func buttonsEnabled() {
         yesButton.isEnabled = true
         noButton.isEnabled = true
-       
+        
     }
     
     func buttonsDisabled() {
