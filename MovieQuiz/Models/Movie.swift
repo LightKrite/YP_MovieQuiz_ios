@@ -34,7 +34,7 @@ func getMovie(from jsonString: String) -> Movie? {
             return nil
         }
         let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-
+        
         guard let json = json,
               let id = json["id"] as? String,
               let title = json["title"] as? String,
@@ -48,9 +48,9 @@ func getMovie(from jsonString: String) -> Movie? {
               let actorList = json["actorList"] as? [Any] else {
             return nil
         }
-
+        
         var actors: [Actor] = []
-
+        
         for actor in actorList {
             guard let actor = actor as? [String: Any],
                   let id = actor["id"] as? String,
@@ -76,6 +76,6 @@ func getMovie(from jsonString: String) -> Movie? {
     } catch {
         print("Failed to parse: \(jsonString)")
     }
-
+    
     return movie
 }
